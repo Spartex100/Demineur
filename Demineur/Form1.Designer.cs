@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             NouvellePartieBoutton = new Button();
             AfficherMineBoutton = new Button();
             MinesLabel = new Label();
@@ -37,9 +38,9 @@
             // 
             // NouvellePartieBoutton
             // 
-            NouvellePartieBoutton.Location = new Point(12, 82);
+            NouvellePartieBoutton.Location = new Point(12, 77);
             NouvellePartieBoutton.Name = "NouvellePartieBoutton";
-            NouvellePartieBoutton.Size = new Size(438, 29);
+            NouvellePartieBoutton.Size = new Size(601, 29);
             NouvellePartieBoutton.TabIndex = 0;
             NouvellePartieBoutton.Text = "Nouvelle partie";
             NouvellePartieBoutton.UseVisualStyleBackColor = true;
@@ -47,7 +48,7 @@
             // 
             // AfficherMineBoutton
             // 
-            AfficherMineBoutton.Location = new Point(302, 47);
+            AfficherMineBoutton.Location = new Point(465, 42);
             AfficherMineBoutton.Name = "AfficherMineBoutton";
             AfficherMineBoutton.Size = new Size(148, 29);
             AfficherMineBoutton.TabIndex = 1;
@@ -79,7 +80,7 @@
             // 
             QuitterBoutton.BackColor = Color.FromArgb(255, 128, 128);
             QuitterBoutton.ForeColor = Color.AliceBlue;
-            QuitterBoutton.Location = new Point(302, 12);
+            QuitterBoutton.Location = new Point(465, 7);
             QuitterBoutton.Name = "QuitterBoutton";
             QuitterBoutton.Size = new Size(148, 29);
             QuitterBoutton.TabIndex = 4;
@@ -91,14 +92,17 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(462, 572);
+            BackColor = Color.FromArgb(126, 217, 87);
+            ClientSize = new Size(625, 735);
             Controls.Add(QuitterBoutton);
             Controls.Add(DrapeauRestantLabel);
             Controls.Add(MinesLabel);
             Controls.Add(AfficherMineBoutton);
             Controls.Add(NouvellePartieBoutton);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
-            Text = "Des mineurs";
+            Text = "D-Mineur";
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }

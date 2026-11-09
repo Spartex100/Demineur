@@ -13,12 +13,14 @@ namespace Demineur
     {
         Random rnd = new Random();
 
-        int nbMines = 20;
+        int nbMines = 15;
         EtatCase[,] etats = new EtatCase[10, 10];
         bool[,] mines = new bool[10, 10];
         PictureBox[,] casesPictureBox = new PictureBox[10, 10];
 
         Image[] imagesCases = new Image[13];
+
+        bool finDePartie = true;
 
         public void InitialiserImages()
         {
@@ -36,14 +38,22 @@ namespace Demineur
             imagesCases[12] = Image.FromFile($"{dossier}/mineExplosee.png");
         }
 
-        public void PlacerMines()
+        public void InitialiserNouvellePartie()
+        {
+            nbMines = 20; // A CHANGER (Selectionner par le joueur)
+        }
+
+        
+
+        public void PlacerMines(int[] CaseInitiale)
+
         {
             void VerifierEtPlacerMine()
             {
                 int ligne = rnd.Next(10);
                 int colonne = rnd.Next(10);
 
-                if (mines[ligne, colonne]) // mine deja presente
+                if (mines[ligne, colonne] || (ligne == CaseInitiale[0] && colonne == CaseInitiale[1])) // mine deja presente
                 {
                     VerifierEtPlacerMine(); // Pour placer la mine ailleurs que sur une mine deja a cet endroit
                 }
@@ -53,7 +63,8 @@ namespace Demineur
                 }
 
             }
-            for (int i = 0;i < nbMines; i++)
+
+            for (int i = 0; i < nbMines; i++)
             {
                 VerifierEtPlacerMine();
             }
@@ -61,18 +72,21 @@ namespace Demineur
 
         public Form1()
         {
+            
             InitializeComponent();
             InitialiserImages();
+            int TailleCases = 60;
             for (int ligne = 0; ligne < casesPictureBox.GetLength(0); ligne++)
             {
                 for (int colonne = 0; colonne < casesPictureBox.GetLength(1); colonne++)
                 {
 
+
                     PictureBox newBox = new PictureBox();
                     /*((System.ComponentModel.ISupportInitialize)newBox).BeginInit();*/
-                    newBox.Location = new Point(10 + colonne * 45, 120 + ligne * 45);
+                    newBox.Location = new Point(10 + colonne * TailleCases, 120 + ligne * TailleCases);
                     newBox.Name = $"pictureBox{ligne}_{colonne}";
-                    newBox.Size = new Size(40, 40);
+                    newBox.Size = new Size(TailleCases, TailleCases);
                     newBox.TabIndex = 0;
                     newBox.TabStop = false;
                     newBox.BackColor = System.Drawing.Color.LightGray;
@@ -89,8 +103,33 @@ namespace Demineur
                     newBox.MouseClick += PictureBox_Click;
                 }
             }
+        }
 
-            PlacerMines();
+        void VerifierAlentours(int ligne, int colonne)
+        {
+            //casesPictureBox[ligne, colonne].Image = imagesCases[0];
+
+            int ligneInitiale = ligne -  1;
+            int colonneInitiale = colonne - 1;
+
+            int NbMinesEntourantes = 0;
+            
+            for (int i = ligneInitiale; i < ligneInitiale+3; i++)
+            {
+                for (int j = colonneInitiale; j < colonneInitiale+3; j++)
+                {
+                    if (i >= 0 && i <=9 && j >= 0 && j <= 9)
+                    {
+                        if (mines[i,j])
+                        {
+                            NbMinesEntourantes++;
+                            
+                        }
+                    }
+                }
+            }
+
+            casesPictureBox[ligne, colonne].Image = imagesCases[NbMinesEntourantes];
         }
 
         private void PictureBox_Click(object sender, MouseEventArgs e)
@@ -114,7 +153,7 @@ namespace Demineur
                 {
                     for (int colonne = 0; colonne < casesPictureBox.GetLength(1); colonne++)
                     {
-                        if (mines[ligne, colonne])
+                        if (mines[ligne, colonne] && etats[ligne, colonne] != EtatCase.Drapeau) // on montre pas si ya deja un drapeau dessus
                         {
                             casesPictureBox[ligne, colonne].Image = imagesCases[12];
                         }
@@ -127,15 +166,26 @@ namespace Demineur
                 if (etats[ligne, colonne] == EtatCase.Cachee)
                 {
                     etats[ligne, colonne] = EtatCase.Revelee;
+
                     if (mines[ligne, colonne]) // mine presente
                     {
+                        //finDePartie = true;
                         AfficherMines();
                     }
                     else
                     {
-                        casesPictureBox[ligne, colonne].Image = imagesCases[0];
+                        if (finDePartie) // Placer les mines apres le premier clic pour pas mourrir au premier tour :)
+                        {
+                            finDePartie = false;
+                            int[] CaseInitiale = { ligne, colonne };
+                            PlacerMines(CaseInitiale);
+                        }
+                        
+                        //PlacerMines(); // passer la case initiale mais juste une fois
+                        //casesPictureBox[ligne, colonne].Image = imagesCases[0]; 
+                        VerifierAlentours(ligne, colonne); // Logique principale
+                        
                     }
-                    
                 }
                 else if (etats[ligne, colonne] == EtatCase.Revelee)
                 {
@@ -199,6 +249,11 @@ namespace Demineur
         }
 
         private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
