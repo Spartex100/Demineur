@@ -34,7 +34,7 @@
             MinesLabel = new Label();
             DrapeauRestantLabel = new Label();
             QuitterBoutton = new Button();
-            textBox1 = new TextBox();
+            NbMinesSelecteur = new TextBox();
             SuspendLayout();
             // 
             // NouvellePartieBoutton
@@ -65,7 +65,6 @@
             MinesLabel.Size = new Size(115, 20);
             MinesLabel.TabIndex = 2;
             MinesLabel.Text = "Mines cachées : ";
-            MinesLabel.Click += label1_Click;
             // 
             // DrapeauRestantLabel
             // 
@@ -75,7 +74,6 @@
             DrapeauRestantLabel.Size = new Size(155, 20);
             DrapeauRestantLabel.TabIndex = 3;
             DrapeauRestantLabel.Text = "Drapeaux restants : 15";
-            DrapeauRestantLabel.Click += label2_Click;
             // 
             // QuitterBoutton
             // 
@@ -89,15 +87,14 @@
             QuitterBoutton.UseVisualStyleBackColor = false;
             QuitterBoutton.Click += Quit_Button;
             // 
-            // textBox1
+            // NbMinesSelecteur
             // 
-            textBox1.Location = new Point(126, 13);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(46, 27);
-            textBox1.TabIndex = 6;
-            textBox1.Text = "15";
-            textBox1.TextAlign = HorizontalAlignment.Center;
-            textBox1.TextChanged += textBox1_TextChanged;
+            NbMinesSelecteur.Location = new Point(126, 13);
+            NbMinesSelecteur.Name = "NbMinesSelecteur";
+            NbMinesSelecteur.Size = new Size(46, 27);
+            NbMinesSelecteur.TabIndex = 6;
+            NbMinesSelecteur.Text = "15";
+            NbMinesSelecteur.TextAlign = HorizontalAlignment.Center;
             // 
             // Form1
             // 
@@ -105,7 +102,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(126, 217, 87);
             ClientSize = new Size(520, 624);
-            Controls.Add(textBox1);
+            Controls.Add(NbMinesSelecteur);
             Controls.Add(QuitterBoutton);
             Controls.Add(DrapeauRestantLabel);
             Controls.Add(MinesLabel);
@@ -115,7 +112,6 @@
             Name = "Form1";
             Text = "D-Mineur";
             Load += Form1_Load;
-            Click += AfficherMine_Button;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -127,6 +123,6 @@
         private Label MinesLabel;
         private Label DrapeauRestantLabel;
         private Button QuitterBoutton;
-        private TextBox textBox1;
+        private TextBox NbMinesSelecteur;
     }
 }
